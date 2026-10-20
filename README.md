@@ -1,18 +1,50 @@
-# React + Vite
+# Front Producer Kafka
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Front-end React (Vite) de la actividad **Módulo 8 — Kafka en acción, del front al back**.
 
-Currently, two official plugins are available:
+## Vistas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Ruta | Componente | Contenido |
+| --- | --- | --- |
+| `/` | `Home` | Bienvenida |
+| `/menus` | `Producer` | Flujo original: envía un mensaje al productor y muestra el menú sugerido |
+| `/actividad` | `Actividad` | **Nuevo.** Pestañas *Consulta de Clientes* y *Arquitectura* |
+| `/clientes` | `Clientes` | Marcador de posición del proyecto original |
 
-## React Compiler
+### Pestaña Consulta
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+`src/components/ConsultaClientes.jsx` llama a `GET /producer/clientes?filtro=…` y muestra:
 
-Note: This will impact Vite dev & build performances.
+- estados de carga, error y resultado vacío;
+- tabla con id, nombre, ciudad, email y teléfono;
+- **panel de evidencia de Kafka** con tópico de solicitud y respuesta, partición, offset,
+  `requestId`, latencia y timestamp. Es la prueba de que la consulta pasó por el broker.
 
-## Expanding the ESLint configuration
+### Pestaña Arquitectura
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+`src/components/Arquitectura.jsx` muestra `public/diagrama-arquitectura.svg` con enlace al
+tamaño completo y aviso claro si la imagen no está disponible.
+
+## Configuración del API
+
+La URL base se toma de `VITE_API_URL` y por defecto es `http://localhost:8000`:
+
+```bash
+VITE_API_URL=http://localhost:8001 npm run dev
+```
+
+## Ejecución
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build
+```
+
+El back-end debe permitir el origen `http://localhost:5173` (lo hace `CorsConfig` en
+`str-producer`).
+
+## Diagrama
+
+`public/diagrama-arquitectura.svg` es copia de `entregables/diagrama-arquitectura.svg`.
+El archivo editable es `diagrama-arquitectura.drawio` (draw.io / diagrams.net).
