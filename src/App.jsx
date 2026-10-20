@@ -10,6 +10,7 @@ import Menus from "./pages/mainpages/Menus";
 import Navbar from "./pages/Navbar/Navbar";
 import Default from "./pages/mainpages/Default";
 import Home from "./pages/mainpages/Home";
+import Actividad from "./pages/mainpages/Actividad";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/clientes" element={<Clientes />} />
             <Route path="/menus" element={<Menus />} />
+            <Route path="/actividad" element={<Actividad />} />
             <Route path="*" element={<Default />} />
           </Routes>
         </div>
