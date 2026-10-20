@@ -1,0 +1,564 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1160" width="1600" height="1160">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 22px; font-weight: 800; fill: #0F172A; }
+      .subtitle { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 500; fill: #475569; }
+      .lane-title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 700; fill: #FFFFFF; letter-spacing: 0.5px; }
+      .lane-sub { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 500; fill: #E2E8F0; }
+      .box-title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 12.5px; font-weight: 700; fill: #0F172A; }
+      .box-desc { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 400; fill: #334155; }
+      .code-text { font-family: 'SF Mono', Consolas, Menlo, monospace; font-size: 10px; fill: #0F172A; }
+      .badge-text { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #FFFFFF; }
+      .flow-badge-text { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11.5px; font-weight: 800; fill: #FFFFFF; }
+      .topic-title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 12.5px; font-weight: 700; fill: #78350F; }
+      .topic-detail { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10.5px; font-weight: 600; fill: #92400E; }
+      .legend-desc { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; fill: #334155; }
+      .step-text { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10.5px; fill: #1E293B; }
+    </style>
+    
+    <!-- Marcadores de Flechas -->
+    <marker id="arrow-flow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#E11D48"/>
+    </marker>
+    <marker id="arrow-rest" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284C7"/>
+    </marker>
+    <marker id="arrow-legacy" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    
+    <!-- Sombra suave para las tarjetas y carriles -->
+    <filter id="soft-shadow" x="-3%" y="-2%" width="106%" height="106%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo General Blanco (Óptimo para PDF e Integración Web) -->
+  <rect x="0" y="0" width="1600" height="1160" fill="#FFFFFF"/>
+  <rect x="15" y="15" width="1570" height="1130" fill="none" stroke="#E2E8F0" stroke-width="1.2" rx="8"/>
+
+  <!-- ==================== ENCABEZADO ==================== -->
+  <g transform="translate(40, 28)">
+    <rect x="0" y="0" width="44" height="44" rx="8" fill="#0F172A"/>
+    <text x="22" y="29" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="800" fill="#38BDF8" text-anchor="middle">K</text>
+    
+    <text x="56" y="23" class="title">ARQUITECTURA DE MENSAJERÍA DISTRIBUIDA CON APACHE KAFKA</text>
+    <text x="56" y="41" class="subtitle">Desacoplamiento Front-End / Back-End mediante Request-Reply Asíncrono sobre Kafka | Spring Boot 3 &amp; React 18</text>
+    
+    <!-- Badges superiores de puertos y servicios -->
+    <g transform="translate(1120, 8)">
+      <rect x="0" y="0" width="80" height="24" rx="4" fill="#E0F2FE" stroke="#38BDF8" stroke-width="1"/>
+      <text x="40" y="16" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#0369A1" text-anchor="middle">Vite :5173</text>
+      
+      <rect x="90" y="0" width="95" height="24" rx="4" fill="#DCFCE7" stroke="#4ADE80" stroke-width="1"/>
+      <text x="137" y="16" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#15803D" text-anchor="middle">Producer :8000</text>
+      
+      <rect x="195" y="0" width="95" height="24" rx="4" fill="#FEF3C7" stroke="#FBBF24" stroke-width="1"/>
+      <text x="242" y="16" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">Kafka :9092</text>
+      
+      <rect x="300" y="0" width="95" height="24" rx="4" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1"/>
+      <text x="347" y="16" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" fill="#6D28D9" text-anchor="middle">Consumer :8100</text>
+    </g>
+  </g>
+
+  <!-- LANE 1: FRONTEND REACT -->
+  <g id="lane-frontend" filter="url(#soft-shadow)">
+    <rect x="40" y="85" width="325" height="715" rx="10" fill="#F8FAFC" stroke="#0284C7" stroke-width="1.5"/>
+    <path d="M 40 95 A 10 10 0 0 1 50 85 L 355 85 A 10 10 0 0 1 365 95 L 365 130 L 40 130 Z" fill="#0369A1"/>
+    <text x="55" y="108" class="lane-title">CAPA FRONTEND (SPA REACT)</text>
+    <text x="55" y="123" class="lane-sub">frontProducerKafka | Vite :5173 | React 18</text>
+    <rect x="295" y="96" width="60" height="22" rx="4" fill="#0284C7"/>
+    <text x="325" y="111" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">CLIENT</text>
+
+    <!-- Navbar.jsx -->
+    <rect x="55" y="140" width="295" height="48" rx="6" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.2"/>
+    <text x="70" y="160" class="box-title">Navbar.jsx</text>
+    <text x="70" y="176" class="box-desc">Navegación SPA con NavLink activo (Menús / Consulta)</text>
+
+    <!-- Actividad.jsx -->
+    <rect x="55" y="198" width="295" height="48" rx="6" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.2"/>
+    <text x="70" y="218" class="box-title">Actividad.jsx</text>
+    <text x="70" y="234" class="box-desc">Selector de pestañas: Menús | Consulta | Arquitectura</text>
+
+    <!-- ConsultaClientes.jsx (DESTACADO / FLUJO 1) -->
+    <rect x="55" y="256" width="295" height="140" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="245" y="263" width="95" height="20" rx="4" fill="#E11D48"/>
+    <text x="292" y="277" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · PASO 1</text>
+    <text x="70" y="278" class="box-title" fill="#BE123C">ConsultaClientes.jsx</text>
+    <text x="70" y="297" class="box-desc">• Formulario interactivo con input de filtro</text>
+    <text x="70" y="313" class="box-desc">• Dispara GET /producer/clientes?filtro=...</text>
+    <text x="70" y="329" class="box-desc">• Tabla de resultados y panel de estado reactivo</text>
+    <text x="70" y="345" class="box-desc">• Muestra: tópico, partición, offset y latencia</text>
+    <rect x="70" y="357" width="265" height="26" rx="4" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
+    <text x="80" y="374" class="code-text" fill="#9F1239">fetch("http://localhost:8000/...")</text>
+
+    <!-- Producer.jsx (FLUJO LEGACY) -->
+    <rect x="55" y="406" width="295" height="75" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+    <rect x="245" y="412" width="95" height="18" rx="3" fill="#64748B"/>
+    <text x="292" y="425" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">FLUJO MENÚS</text>
+    <text x="70" y="426" class="box-title">Producer.jsx</text>
+    <text x="70" y="443" class="box-desc">• Envío de pedidos de menú (P0 sin acuse, P1 con resp.)</text>
+    <text x="70" y="460" class="code-text" fill="#475569">fetch("GET /producer/menu?message=...")</text>
+
+    <!-- Arquitectura.jsx -->
+    <rect x="55" y="491" width="295" height="50" rx="6" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.2"/>
+    <text x="70" y="511" class="box-title">Arquitectura.jsx</text>
+    <text x="70" y="527" class="box-desc">Visualizador SVG interactivo del sistema (embed en SPA)</text>
+
+    <!-- Caja de Protocolo y Comunicación -->
+    <rect x="55" y="551" width="295" height="122" rx="6" fill="#F0F9FF" stroke="#38BDF8" stroke-width="1.2"/>
+    <text x="70" y="571" class="box-title" fill="#0369A1">Capa Comunicación Front ↔ Back</text>
+    <text x="70" y="589" class="box-desc">• Protocolo: HTTP/1.1 REST (JSON síncrono)</text>
+    <text x="70" y="605" class="box-desc">• CorsConfig permite origen: http://localhost:5173</text>
+    <text x="70" y="621" class="box-desc">• <tspan font-weight="700" fill="#0284C7">Sin WebSockets ni SSE</tspan>: el cliente percibe</text>
+    <text x="70" y="637" class="box-desc">  una petición REST estándar no bloqueante.</text>
+    <rect x="70" y="646" width="265" height="18" rx="3" fill="#E0F2FE"/>
+    <text x="202" y="659" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="700" fill="#0369A1" text-anchor="middle">DESACOPLAMIENTO ASÍNCRONO EN BACKEND</text>
+
+    <!-- Vite Server info -->
+    <rect x="55" y="683" width="295" height="102" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="70" y="703" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#475569">Entorno de Ejecución Frontend</text>
+    <text x="70" y="721" class="code-text" fill="#64748B">Vite 5.x Dev Server (:5173)</text>
+    <text x="70" y="737" class="box-desc">• Node.js / React Router DOM / Fetch API</text>
+    <text x="70" y="753" class="box-desc">• Código en src/pages/ y src/components/</text>
+    <text x="70" y="769" class="box-desc">• Diagrama servido desde /public/diagrama-arquitectura.svg</text>
+  </g>
+
+  <!-- LANE 2: BACKEND STR-PRODUCER -->
+  <g id="lane-producer" filter="url(#soft-shadow)">
+    <rect x="405" y="85" width="355" height="715" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+    <path d="M 405 95 A 10 10 0 0 1 415 85 L 750 85 A 10 10 0 0 1 760 95 L 760 130 L 405 130 Z" fill="#15803D"/>
+    <text x="420" y="108" class="lane-title">BACKEND STR-PRODUCER (:8000)</text>
+    <text x="420" y="123" class="lane-sub">Spring Boot 3 | com.lta.backend | Producer REST &amp; Kafka</text>
+    <rect x="680" y="96" width="70" height="22" rx="4" fill="#16A34A"/>
+    <text x="715" y="111" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">PRODUCER</text>
+
+    <!-- ProducerController -->
+    <rect x="420" y="140" width="325" height="112" rx="6" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.2"/>
+    <text x="435" y="160" class="box-title">ProducerController.java</text>
+    <text x="435" y="176" class="box-desc">Controlador REST que expone los endpoints de la API:</text>
+    <text x="435" y="193" class="code-text" fill="#15803D">• GET /producer/clientes?filtro=  [Paso 2 &amp; 6]</text>
+    <text x="435" y="209" class="code-text" fill="#475569">• GET /producer/menu?message=     [Flujo Menús]</text>
+    <text x="435" y="225" class="code-text" fill="#64748B">• GET /producer/test              [Pruebas]</text>
+    <rect x="435" y="231" width="295" height="15" rx="2" fill="#F0FDF4"/>
+    <text x="582" y="242" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="600" fill="#166534" text-anchor="middle">Retorna CompletableFuture con timeout y status HTTP 200</text>
+
+    <!-- ClienteQueryPublisher (NUEVO / FLUJO 3) -->
+    <rect x="420" y="260" width="325" height="115" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="630" y="267" width="105" height="20" rx="4" fill="#E11D48"/>
+    <text x="682" y="281" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · PASO 3</text>
+    <text x="435" y="282" class="box-title" fill="#BE123C">ClienteQueryPublisher.java</text>
+    <text x="435" y="301" class="box-desc">• Genera requestId único (UUID.randomUUID())</text>
+    <text x="435" y="317" class="box-desc">• Registra CompletableFuture en ConcurrentHashMap</text>
+    <text x="435" y="333" class="box-desc">• Publica en Kafka: topic="cliente-consulta", key=filtro</text>
+    <text x="435" y="349" class="box-desc">• Espera resolución de respuesta sin bloquear hilos</text>
+    <rect x="435" y="355" width="295" height="15" rx="3" fill="#FFE4E6"/>
+    <text x="582" y="366" class="code-text" fill="#9F1239" text-anchor="middle">kafkaTemplate.send("cliente-consulta", filtro, payload)</text>
+
+    <!-- ClienteQueryResponseListener (NUEVO / FLUJO 6) -->
+    <rect x="420" y="385" width="325" height="105" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="630" y="392" width="105" height="20" rx="4" fill="#E11D48"/>
+    <text x="682" y="406" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · PASO 6</text>
+    <text x="435" y="407" class="box-title" fill="#BE123C">ClienteQueryResponseListener.java</text>
+    <text x="435" y="425" class="code-text" fill="#15803D">@KafkaListener(topics="cliente-consulta-respuesta",</text>
+    <text x="435" y="440" class="code-text" fill="#15803D">              groupId="cliente-query-response-group")</text>
+    <text x="435" y="457" class="box-desc">• Extrae requestId del mensaje recibido</text>
+    <text x="435" y="473" class="box-desc">• futureMap.remove(requestId).complete(responseDto)</text>
+
+    <!-- Flujo Menús: StringProducerService & ResponseListener -->
+    <rect x="420" y="500" width="325" height="118" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+    <rect x="640" y="506" width="95" height="18" rx="3" fill="#64748B"/>
+    <text x="687" y="519" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">FLUJO MENÚS</text>
+    <text x="435" y="520" class="box-title">StringProducerService.java</text>
+    <text x="435" y="537" class="box-desc">• sendMessage(partición 0): fire &amp; forget (sin acuse)</text>
+    <text x="435" y="553" class="box-desc">• sendMessage(partición 1): aguarda respuesta</text>
+    <text x="435" y="572" class="box-title">ResponseListener.java</text>
+    <text x="435" y="589" class="code-text" fill="#475569">@KafkaListener(topics="str-topic-response", groupId="group-1")</text>
+    <text x="435" y="605" class="box-desc">Procesa acuse de confirmación de órdenes de menú</text>
+
+    <!-- Configuraciones Productor -->
+    <rect x="420" y="628" width="325" height="157" rx="6" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.2"/>
+    <text x="435" y="648" class="box-title" fill="#166534">Configuraciones Spring Boot (:8000)</text>
+    <text x="435" y="666" font-weight="700" class="box-desc">• KafkaAdminConfig.java:</text>
+    <text x="445" y="682" class="box-desc">  Declara NewTopics para creación automática al iniciar</text>
+    <text x="435" y="700" font-weight="700" class="box-desc">• StringProducerFactoryConfig.java:</text>
+    <text x="445" y="716" class="box-desc">  Configura ProducerFactory y KafkaTemplate&lt;String, String&gt;</text>
+    <text x="435" y="734" font-weight="700" class="box-desc">• CorsConfig.java:</text>
+    <text x="445" y="750" class="box-desc">  addCorsMappings(): habilita http://localhost:5173</text>
+    <text x="445" y="766" class="box-desc">  Métodos: GET, POST, OPTIONS (Credentials habilitado)</text>
+  </g>
+
+  <!-- LANE 3: KAFKA CLUSTER & DOCKER -->
+  <g id="lane-kafka" filter="url(#soft-shadow)">
+    <rect x="800" y="85" width="375" height="715" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
+    <path d="M 800 95 A 10 10 0 0 1 810 85 L 1165 85 A 10 10 0 0 1 1175 95 L 1175 130 L 800 130 Z" fill="#B45309"/>
+    <text x="815" y="108" class="lane-title">CLUSTER APACHE KAFKA &amp; DOCKER</text>
+    <text x="815" y="123" class="lane-sub">docker-compose | Red: broker-kafka | Port: 9092:9092</text>
+    <rect x="1095" y="96" width="70" height="22" rx="4" fill="#D97706"/>
+    <text x="1130" y="111" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">BROKER</text>
+
+    <!-- Infraestructura Docker -->
+    <rect x="815" y="140" width="345" height="75" rx="6" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.2"/>
+    <text x="830" y="160" class="box-title">Broker &amp; Servicios Docker</text>
+    <text x="830" y="177" class="box-desc">• <tspan font-weight="700">kafka</tspan> (id=1, :9092) cp-kafka:7.4.0 (auto.create.topics=false)</text>
+    <text x="830" y="193" class="box-desc">• <tspan font-weight="700">zookeeper</tspan> (:2181) Gestión de clúster y sincronización</text>
+    <text x="830" y="209" class="box-desc">• <tspan font-weight="700">kafdrop</tspan> (:19000 → 9000) UI web para inspeccionar mensajes</text>
+
+    <!-- TOPIC 1: cliente-consulta (NUEVO / FLUJO 3 -> 4) -->
+    <g id="topic-cliente-consulta" transform="translate(815, 225)">
+      <rect x="0" y="0" width="345" height="112" rx="8" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+      <!-- Icono Cilindro Kafka -->
+      <path d="M 18 16 C 18 12, 38 12, 38 16 L 38 32 C 38 36, 18 36, 18 32 Z" fill="#FFE4E6" stroke="#E11D48" stroke-width="1.5"/>
+      <ellipse cx="28" cy="16" rx="10" ry="4" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+      
+      <rect x="230" y="8" width="105" height="18" rx="3" fill="#E11D48"/>
+      <text x="282" y="20" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · TOPIC</text>
+      
+      <text x="48" y="22" class="topic-title" fill="#9F1239">cliente-consulta</text>
+      <text x="48" y="38" class="topic-detail" fill="#BE123C">Particiones: 3 (P0, P1, P2) · Factor Réplica: 1</text>
+      
+      <!-- Representación visual de particiones -->
+      <rect x="18" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="64" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 0</text>
+      
+      <rect x="121" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="167" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 1</text>
+      
+      <rect x="224" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="270" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 2</text>
+      
+      <text x="18" y="88" class="code-text" fill="#881337">• Key: filtro (distribución uniforme por hash)</text>
+      <text x="18" y="102" class="code-text" fill="#881337">• Payload: {"requestId":"UUID", "filtro":"..."}</text>
+    </g>
+
+    <!-- TOPIC 2: cliente-consulta-respuesta (NUEVO / FLUJO 5 -> 6) -->
+    <g id="topic-cliente-consulta-respuesta" transform="translate(815, 347)">
+      <rect x="0" y="0" width="345" height="112" rx="8" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+      <!-- Icono Cilindro Kafka -->
+      <path d="M 18 16 C 18 12, 38 12, 38 16 L 38 32 C 38 36, 18 36, 18 32 Z" fill="#FFE4E6" stroke="#E11D48" stroke-width="1.5"/>
+      <ellipse cx="28" cy="16" rx="10" ry="4" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+      
+      <rect x="230" y="8" width="105" height="18" rx="3" fill="#E11D48"/>
+      <text x="282" y="20" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · TOPIC</text>
+      
+      <text x="48" y="22" class="topic-title" fill="#9F1239">cliente-consulta-respuesta</text>
+      <text x="48" y="38" class="topic-detail" fill="#BE123C">Particiones: 3 (P0, P1, P2) · Factor Réplica: 1</text>
+      
+      <!-- Particiones visuales -->
+      <rect x="18" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="64" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 0</text>
+      
+      <rect x="121" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="167" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 1</text>
+      
+      <rect x="224" y="48" width="93" height="24" rx="3" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1"/>
+      <text x="270" y="64" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#BE123C" text-anchor="middle">Partición 2</text>
+      
+      <text x="18" y="88" class="code-text" fill="#881337">• Key: requestId (asociación directa correlación)</text>
+      <text x="18" y="102" class="code-text" fill="#881337">• Payload: {"requestId", "clientes":[...], "status"}</text>
+    </g>
+
+    <!-- TOPIC 3: str-topic (FLUJO MENÚS) -->
+    <g id="topic-str-topic" transform="translate(815, 469)">
+      <rect x="0" y="0" width="345" height="95" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+      <path d="M 18 16 C 18 12, 38 12, 38 16 L 38 32 C 38 36, 18 36, 18 32 Z" fill="#F1F5F9" stroke="#64748B" stroke-width="1.5"/>
+      <ellipse cx="28" cy="16" rx="10" ry="4" fill="#E2E8F0" stroke="#64748B" stroke-width="1.5"/>
+      
+      <rect x="240" y="8" width="95" height="18" rx="3" fill="#64748B"/>
+      <text x="287" y="20" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">FLUJO MENÚS</text>
+      
+      <text x="48" y="22" class="topic-title" fill="#334155">str-topic</text>
+      <text x="48" y="38" class="topic-detail" fill="#475569">Particiones: 2 (P0, P1) · Factor Réplica: 1</text>
+      
+      <rect x="18" y="46" width="142" height="22" rx="3" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="89" y="61" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">P0: Sin respuesta</text>
+      
+      <rect x="175" y="46" width="142" height="22" rx="3" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="246" y="61" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">P1: Con respuesta</text>
+      
+      <text x="18" y="85" class="code-text" fill="#64748B">Mensajes de texto planos enviados desde Producer</text>
+    </g>
+
+    <!-- TOPIC 4: str-topic-response (RESPUESTA MENÚS) -->
+    <g id="topic-str-topic-response" transform="translate(815, 574)">
+      <rect x="0" y="0" width="345" height="95" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+      <path d="M 18 16 C 18 12, 38 12, 38 16 L 38 32 C 38 36, 18 36, 18 32 Z" fill="#F1F5F9" stroke="#64748B" stroke-width="1.5"/>
+      <ellipse cx="28" cy="16" rx="10" ry="4" fill="#E2E8F0" stroke="#64748B" stroke-width="1.5"/>
+      
+      <rect x="240" y="8" width="95" height="18" rx="3" fill="#64748B"/>
+      <text x="287" y="20" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">RESP. MENÚS</text>
+      
+      <text x="48" y="22" class="topic-title" fill="#334155">str-topic-response</text>
+      <text x="48" y="38" class="topic-detail" fill="#475569">Particiones: 2 (P0, P1) · Factor Réplica: 1</text>
+      
+      <rect x="18" y="46" width="142" height="22" rx="3" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="89" y="61" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">Partición 0</text>
+      
+      <rect x="175" y="46" width="142" height="22" rx="3" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="246" y="61" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">Partición 1</text>
+      
+      <text x="18" y="85" class="code-text" fill="#64748B">Confirmación generada por OrderProcessor (:8100)</text>
+    </g>
+
+    <!-- Kafdrop UI Bar -->
+    <rect x="815" y="679" width="345" height="106" rx="6" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.2"/>
+    <text x="830" y="699" class="box-title" fill="#B45309">Kafdrop Web UI (:19000)</text>
+    <text x="830" y="717" class="box-desc">• Mapeo de puerto: 19000:9000 en docker-compose</text>
+    <text x="830" y="733" class="box-desc">• Inspección visual de topics, mensajes, particiones y offsets</text>
+    <text x="830" y="749" class="box-desc">• Verificación del lag de los Consumer Groups:</text>
+    <text x="840" y="767" class="code-text" fill="#92400E">cliente-query-group / cliente-query-response-group</text>
+  </g>
+
+  <!-- LANE 4: BACKEND STR-CONSUMER -->
+  <g id="lane-consumer" filter="url(#soft-shadow)">
+    <rect x="1215" y="85" width="345" height="715" rx="10" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.5"/>
+    <path d="M 1215 95 A 10 10 0 0 1 1225 85 L 1550 85 A 10 10 0 0 1 1560 95 L 1560 130 L 1215 130 Z" fill="#4338CA"/>
+    <text x="1230" y="108" class="lane-title">BACKEND STR-CONSUMER (:8100)</text>
+    <text x="1230" y="123" class="lane-sub">Spring Boot 3 | com.lta.backend | Consumer &amp; Repository</text>
+    <rect x="1480" y="96" width="70" height="22" rx="4" fill="#6366F1"/>
+    <text x="1515" y="111" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">CONSUMER</text>
+
+    <!-- ClienteQueryListener (NUEVO / FLUJO 4 - DESTACADO) -->
+    <rect x="1230" y="140" width="315" height="122" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="1425" y="147" width="110" height="20" rx="4" fill="#E11D48"/>
+    <text x="1480" y="161" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · PASO 4</text>
+    <text x="1245" y="162" class="box-title" fill="#BE123C">ClienteQueryListener.java</text>
+    <text x="1245" y="181" class="code-text" fill="#15803D">@KafkaListener(topics="cliente-consulta",</text>
+    <text x="1245" y="196" class="code-text" fill="#15803D">              groupId="cliente-query-group")</text>
+    <text x="1245" y="214" class="box-desc">• Escucha eventos de consulta en las 3 particiones</text>
+    <text x="1245" y="230" class="box-desc">• Deserializa payload y extrae filtro + requestId</text>
+    <text x="1245" y="246" class="box-desc">• Invoca ClienteQueryService.consultar(filtro)</text>
+
+    <!-- ClienteQueryService & ClienteRepository (FLUJO 4) -->
+    <rect x="1230" y="272" width="315" height="116" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="1.8"/>
+    <text x="1245" y="292" class="box-title" fill="#BE123C">ClienteQueryService &amp; Repository</text>
+    <text x="1245" y="310" class="box-desc">• <tspan font-weight="700">ClienteQueryService.java</tspan>: Servicio de negocio</text>
+    <text x="1245" y="326" class="box-desc">• <tspan font-weight="700">ClienteRepository.java</tspan>: Acceso a datos de clientes</text>
+    <text x="1245" y="342" class="box-desc">• Búsqueda por subcadena / coincidencia de nombre</text>
+    <text x="1245" y="358" class="box-desc">• Construye DTO con lista de clientes y status</text>
+    <rect x="1245" y="364" width="285" height="17" rx="3" fill="#FFE4E6"/>
+    <text x="1387" y="376" class="code-text" fill="#9F1239" text-anchor="middle">List&lt;Cliente&gt; buscar(String filtro)</text>
+
+    <!-- KafkaTemplate Consumer (FLUJO 5) -->
+    <rect x="1230" y="398" width="315" height="97" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="1425" y="405" width="110" height="20" rx="4" fill="#E11D48"/>
+    <text x="1480" y="419" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">NUEVO · PASO 5</text>
+    <text x="1245" y="419" class="box-title" fill="#BE123C">KafkaTemplate (Respuesta)</text>
+    <text x="1245" y="438" class="box-desc">• El Consumer actúa como Productor de la respuesta</text>
+    <text x="1245" y="454" class="box-desc">• Publica en topic: "cliente-consulta-respuesta"</text>
+    <text x="1245" y="470" class="box-desc">• Incluye requestId original para correlación</text>
+    <text x="1245" y="486" class="code-text" fill="#9F1239">kafkaTemplate.send(..., requestId, responseDto)</text>
+
+    <!-- StrConsumerListener & OrderProcessor (FLUJO MENÚS) -->
+    <rect x="1230" y="505" width="315" height="120" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+    <rect x="1440" y="511" width="95" height="18" rx="3" fill="#64748B"/>
+    <text x="1487" y="524" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">FLUJO MENÚS</text>
+    <text x="1245" y="525" class="box-title">StrConsumerListener.java</text>
+    <text x="1245" y="542" class="code-text" fill="#475569">• listener1(): group-1 (partición 0)</text>
+    <text x="1245" y="557" class="code-text" fill="#475569">• listener2(): group-1 (partición 1)</text>
+    <text x="1245" y="572" class="code-text" fill="#475569">• listener3(): group-2 (particiones 0 y 1)</text>
+    <text x="1245" y="591" class="box-title">OrderProcessor.java</text>
+    <text x="1245" y="607" class="box-desc">Procesa orden y emite acuse a str-topic-response</text>
+
+    <!-- Configuraciones Consumidor -->
+    <rect x="1230" y="635" width="315" height="150" rx="6" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="1.2"/>
+    <text x="1245" y="655" class="box-title" fill="#3730A3">Configuraciones Spring Boot (:8100)</text>
+    <text x="1245" y="673" font-weight="700" class="box-desc">• StringConsumerConfig.java:</text>
+    <text x="1255" y="689" class="box-desc">  validMessageContainerFactory() con interceptores</text>
+    <text x="1245" y="707" font-weight="700" class="box-desc">• RecordInterceptor:</text>
+    <text x="1255" y="723" class="box-desc">  Inspección y logging de mensajes entrantes</text>
+    <text x="1245" y="741" font-weight="700" class="box-desc">• KafkaAdminConfig.java:</text>
+    <text x="1255" y="757" class="box-desc">  Configuración de conexión administrativa</text>
+  </g>
+
+  <!-- ==================== FLECHAS DEL FLUJO 1 AL 6 ==================== -->
+  <g id="flow-arrows">
+    <!-- PASO 2: HTTP GET /producer/clientes?filtro= -->
+    <!-- Desde ConsultaClientes (x: 350, y: 285) hacia ProducerController (x: 420, y: 175) -->
+    <path d="M 350 285 C 385 285, 385 175, 415 175" fill="none" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrow-rest)"/>
+    <g transform="translate(373, 215)">
+      <circle cx="12" cy="12" r="12" fill="#0284C7"/>
+      <text x="12" y="16.5" class="flow-badge-text" text-anchor="middle">2</text>
+    </g>
+
+    <!-- RETORNO PASO 6: HTTP 200 JSON desde ProducerController hacia ConsultaClientes -->
+    <!-- Desde ProducerController (x: 420, y: 195) hacia ConsultaClientes (x: 350, y: 310) -->
+    <path d="M 420 195 C 385 195, 385 310, 355 310" fill="none" stroke="#16A34A" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow-legacy)"/>
+    <g transform="translate(365, 320)">
+      <rect x="0" y="0" width="45" height="15" rx="3" fill="#DCFCE7" stroke="#16A34A" stroke-width="1"/>
+      <text x="22.5" y="11" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" fill="#15803D" text-anchor="middle">HTTP 200</text>
+    </g>
+
+    <!-- PASO 3: ClienteQueryPublisher -> Topic cliente-consulta -->
+    <!-- Desde ClienteQueryPublisher (x: 745, y: 300) hacia topic cliente-consulta (x: 815, y: 260) -->
+    <path d="M 745 300 C 775 300, 780 260, 810 260" fill="none" stroke="#E11D48" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrow-flow)"/>
+    <g transform="translate(768, 268)">
+      <circle cx="12" cy="12" r="12" fill="#E11D48"/>
+      <text x="12" y="16.5" class="flow-badge-text" text-anchor="middle">3</text>
+    </g>
+
+    <!-- PASO 4: Topic cliente-consulta -> ClienteQueryListener -->
+    <!-- Desde topic cliente-consulta (x: 1160, y: 260) hacia ClienteQueryListener (x: 1230, y: 185) -->
+    <path d="M 1160 260 C 1190 260, 1195 185, 1225 185" fill="none" stroke="#E11D48" stroke-width="2.5" marker-end="url(#arrow-flow)"/>
+    <g transform="translate(1183, 210)">
+      <circle cx="12" cy="12" r="12" fill="#E11D48"/>
+      <text x="12" y="16.5" class="flow-badge-text" text-anchor="middle">4</text>
+    </g>
+
+    <!-- PASO 5: Consumer KafkaTemplate -> Topic cliente-consulta-respuesta -->
+    <!-- Desde Consumer KafkaTemplate (x: 1230, y: 440) hacia topic cliente-consulta-respuesta (x: 1160, y: 395) -->
+    <path d="M 1230 440 C 1195 440, 1190 395, 1165 395" fill="none" stroke="#E11D48" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrow-flow)"/>
+    <g transform="translate(1183, 405)">
+      <circle cx="12" cy="12" r="12" fill="#E11D48"/>
+      <text x="12" y="16.5" class="flow-badge-text" text-anchor="middle">5</text>
+    </g>
+
+    <!-- PASO 6: Topic cliente-consulta-respuesta -> ClienteQueryResponseListener -->
+    <!-- Desde topic cliente-consulta-respuesta (x: 815, y: 395) hacia ClienteQueryResponseListener (x: 745, y: 430) -->
+    <path d="M 815 395 C 785 395, 780 430, 750 430" fill="none" stroke="#E11D48" stroke-width="2.5" marker-end="url(#arrow-flow)"/>
+    <g transform="translate(768, 400)">
+      <circle cx="12" cy="12" r="12" fill="#E11D48"/>
+      <text x="12" y="16.5" class="flow-badge-text" text-anchor="middle">6</text>
+    </g>
+
+    <!-- Flujo Legacy: Producer.jsx -> ProducerController (GET /producer/menu) -->
+    <path d="M 350 440 C 385 440, 385 220, 415 220" fill="none" stroke="#64748B" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-gray)"/>
+    
+    <!-- Flujo Legacy: StringProducerService -> str-topic -->
+    <path d="M 745 540 C 775 540, 785 500, 810 500" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-legacy)"/>
+    
+    <!-- Flujo Legacy: str-topic -> StrConsumerListener -->
+    <path d="M 1160 500 C 1190 500, 1195 550, 1225 550" fill="none" stroke="#059669" stroke-width="1.8" marker-end="url(#arrow-legacy)"/>
+    
+    <!-- Flujo Legacy: OrderProcessor -> str-topic-response -->
+    <path d="M 1230 605 C 1195 605, 1190 610, 1165 610" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-legacy)"/>
+    
+    <!-- Flujo Legacy: str-topic-response -> ResponseListener -->
+    <path d="M 815 610 C 785 610, 775 605, 750 605" fill="none" stroke="#059669" stroke-width="1.8" marker-end="url(#arrow-legacy)"/>
+  </g>
+
+  <!-- SECCIÓN INFERIOR: PASOS 1-6 DETALLADOS -->
+  <g id="bottom-steps" filter="url(#soft-shadow)">
+    <rect x="40" y="815" width="1060" height="315" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+    <path d="M 40 823 A 8 8 0 0 1 48 815 L 1092 815 A 8 8 0 0 1 1100 823 L 1100 848 L 40 848 Z" fill="#0F172A"/>
+    <text x="60" y="837" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">SECUENCIA COMPLETA DEL FLUJO DE CONSULTA DE CLIENTES (PASOS 1 AL 6)</text>
+    <rect x="930" y="821" width="155" height="20" rx="3" fill="#E11D48"/>
+    <text x="1007" y="835" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">REQUEST-REPLY PATTERN</text>
+
+    <!-- Fila 1 de Pasos: 1, 2, 3 -->
+    <!-- Paso 1 -->
+    <g transform="translate(60, 860)">
+      <rect x="0" y="0" width="320" height="115" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="20" cy="20" r="14" fill="#E11D48"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">1</text>
+      <text x="42" y="23" class="box-title">Frontend: Solicitud de Búsqueda</text>
+      <text x="12" y="48" class="step-text">• Usuario ingresa filtro en <tspan font-weight="700">ConsultaClientes.jsx</tspan></text>
+      <text x="12" y="65" class="step-text">• Pulsa el botón "Buscar" (React activa loading)</text>
+      <text x="12" y="82" class="step-text">• Envía GET sincrónico mediante Fetch API</text>
+      <text x="12" y="99" class="code-text" fill="#0284C7">fetch('GET :8000/producer/clientes?filtro=...')</text>
+    </g>
+
+    <!-- Paso 2 -->
+    <g transform="translate(400, 860)">
+      <rect x="0" y="0" width="320" height="115" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="20" cy="20" r="14" fill="#0284C7"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">2</text>
+      <text x="42" y="23" class="box-title">REST API: Recepción en Controller</text>
+      <text x="12" y="48" class="step-text">• <tspan font-weight="700">ProducerController</tspan> (:8000) atiende la petición</text>
+      <text x="12" y="65" class="step-text">• <tspan font-weight="700">CorsConfig</tspan> valida y permite origen :5173</text>
+      <text x="12" y="82" class="step-text">• Delega consulta a <tspan font-weight="700">ClienteQueryPublisher</tspan></text>
+      <text x="12" y="99" class="code-text" fill="#15803D">CompletableFuture&lt;ClienteResponse&gt; future</text>
+    </g>
+
+    <!-- Paso 3 -->
+    <g transform="translate(740, 860)">
+      <rect x="0" y="0" width="340" height="115" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="1.2"/>
+      <circle cx="20" cy="20" r="14" fill="#E11D48"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">3</text>
+      <text x="42" y="23" class="box-title" fill="#BE123C">Kafka Publish: Topic cliente-consulta</text>
+      <text x="12" y="48" class="step-text">• Genera <tspan font-weight="700">requestId UUID</tspan> como Correlation ID</text>
+      <text x="12" y="65" class="step-text">• Registra CompletableFuture en mapa concurrente</text>
+      <text x="12" y="82" class="step-text">• Publica payload JSON en <tspan font-weight="700">cliente-consulta</tspan> (P=3)</text>
+      <text x="12" y="99" class="code-text" fill="#9F1239">key = filtro (balanceo determinista en particiones)</text>
+    </g>
+
+    <!-- Fila 2 de Pasos: 4, 5, 6 -->
+    <!-- Paso 4 -->
+    <g transform="translate(60, 990)">
+      <rect x="0" y="0" width="320" height="120" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="1.2"/>
+      <circle cx="20" cy="20" r="14" fill="#E11D48"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">4</text>
+      <text x="42" y="23" class="box-title" fill="#BE123C">Consumo &amp; Consulta en Repositorio</text>
+      <text x="12" y="48" class="step-text">• <tspan font-weight="700">ClienteQueryListener</tspan> (:8100) recibe mensaje</text>
+      <text x="12" y="65" class="step-text">• Grupo de consumidores: <tspan font-weight="700">cliente-query-group</tspan></text>
+      <text x="12" y="82" class="step-text">• Ejecuta <tspan font-weight="700">ClienteQueryService</tspan> / <tspan font-weight="700">ClienteRepository</tspan></text>
+      <text x="12" y="99" class="step-text">• Filtra clientes coincidentes y arma DTO respuesta</text>
+    </g>
+
+    <!-- Paso 5 -->
+    <g transform="translate(400, 990)">
+      <rect x="0" y="0" width="320" height="120" rx="6" fill="#FFF1F2" stroke="#F43F5E" stroke-width="1.2"/>
+      <circle cx="20" cy="20" r="14" fill="#E11D48"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">5</text>
+      <text x="42" y="23" class="box-title" fill="#BE123C">Kafka Reply: cliente-consulta-resp</text>
+      <text x="12" y="48" class="step-text">• Consumer utiliza <tspan font-weight="700">KafkaTemplate</tspan> para responder</text>
+      <text x="12" y="65" class="step-text">• Publica en <tspan font-weight="700">cliente-consulta-respuesta</tspan> (P=3)</text>
+      <text x="12" y="82" class="step-text">• Incluye <tspan font-weight="700">requestId</tspan> para emparejar transacción</text>
+      <text x="12" y="99" class="code-text" fill="#9F1239">payload: {"requestId", "clientes":[...], "status"}</text>
+    </g>
+
+    <!-- Paso 6 -->
+    <g transform="translate(740, 990)">
+      <rect x="0" y="0" width="340" height="120" rx="6" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.2"/>
+      <circle cx="20" cy="20" r="14" fill="#16A34A"/>
+      <text x="20" y="25" class="flow-badge-text" text-anchor="middle">6</text>
+      <text x="42" y="23" class="box-title" fill="#15803D">Resolución Future &amp; Retorno HTTP</text>
+      <text x="12" y="48" class="step-text">• <tspan font-weight="700">ClienteQueryResponseListener</tspan> captura evento</text>
+      <text x="12" y="65" class="step-text">• Resuelve el CompletableFuture pendiente por requestId</text>
+      <text x="12" y="82" class="step-text">• <tspan font-weight="700">ProducerController</tspan> retorna HTTP 200 JSON</text>
+      <text x="12" y="98" class="code-text" fill="#166534">JSON: clientes, tópico, partición, offset y latencia</text>
+    </g>
+  </g>
+
+  <!-- SECCIÓN INFERIOR: LEYENDA TÉCNICA Y ESPECIFICACIONES -->
+  <g id="bottom-legend" filter="url(#soft-shadow)">
+    <rect x="1115" y="815" width="445" height="315" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+    <path d="M 1115 823 A 8 8 0 0 1 1123 815 L 1552 815 A 8 8 0 0 1 1560 823 L 1560 848 L 1115 848 Z" fill="#1E293B"/>
+    <text x="1135" y="837" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">ESPECIFICACIONES TÉCNICAS &amp; LEYENDA</text>
+
+    <!-- Items de la Leyenda -->
+    <g transform="translate(1135, 862)">
+      <!-- Item 1: Flujo Consulta -->
+      <line x1="0" y1="12" x2="35" y2="12" stroke="#E11D48" stroke-width="3" stroke-dasharray="6,3" marker-end="url(#arrow-flow)"/>
+      <text x="50" y="16" class="legend-desc"><tspan font-weight="700" fill="#BE123C">Flujo Nuevo Consulta (1 al 6):</tspan> Request-Reply Asíncrono</text>
+
+      <!-- Item 2: HTTP REST -->
+      <line x1="0" y1="36" x2="35" y2="36" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrow-rest)"/>
+      <text x="50" y="40" class="legend-desc"><tspan font-weight="700" fill="#0369A1">HTTP REST Síncrono:</tspan> fetch API con CORS habilitado</text>
+
+      <!-- Item 3: Flujo Legacy Menús -->
+      <line x1="0" y1="60" x2="35" y2="60" stroke="#059669" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow-legacy)"/>
+      <text x="50" y="64" class="legend-desc"><tspan font-weight="700" fill="#15803D">Flujo Menús (Legacy):</tspan> Partición 0 / 1 en str-topic</text>
+
+      <!-- Item 4: Topics Kafka -->
+      <rect x="0" y="78" width="35" height="18" rx="3" fill="#FFF1F2" stroke="#E11D48" stroke-width="1.2"/>
+      <text x="50" y="91" class="legend-desc"><tspan font-weight="700" fill="#BE123C">Componente / Tópico NUEVO:</tspan> 3 particiones, 1 réplica</text>
+    </g>
+
+    <!-- Cuadro de Notas Arquitecturales Clave -->
+    <rect x="1130" y="980" width="415" height="135" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="1145" y="1000" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#0F172A">Decisiones Arquitecturales Clave</text>
+    
+    <text x="1145" y="1018" class="box-desc">• <tspan font-weight="700" fill="#0369A1">Sin WebSockets:</tspan> El frontend no requiere conexión persistente;</text>
+    <text x="1145" y="1033" class="box-desc">  aprovecha HTTP REST estándar facilitando cache y proxies.</text>
+    
+    <text x="1145" y="1053" class="box-desc">• <tspan font-weight="700" fill="#BE123C">Request-Reply Asíncrono:</tspan> CompletableFuture almacena la</text>
+    <text x="1145" y="1068" class="box-desc">  petición en memoria con timeout sin agotar el pool de hilos Tomcat.</text>
+    
+    <text x="1145" y="1088" class="box-desc">• <tspan font-weight="700" fill="#B45309">Particionamiento:</tspan> 3 particiones distribuyen consultas por hash</text>
+    <text x="1145" y="1103" class="box-desc">  de la clave (filtro), garantizando escalabilidad horizontal.</text>
+  </g>
+</svg>
