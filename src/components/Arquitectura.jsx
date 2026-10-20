@@ -1,15 +1,50 @@
 import { useState } from "react";
 
+const VISTAS = {
+  conceptual: {
+    archivo: "diagrama-simplificado.svg",
+    etiqueta: "Conceptual",
+    alt: "Diagrama conceptual: React envía la consulta a str-producer, que publica en Kafka; str-consumer la escucha y responde por el tópico de respuesta.",
+    descripcion:
+      "Cuatro piezas y un ciclo: la consulta entra por HTTP, viaja por Kafka, se responde en otro tópico y vuelve correlacionada al navegador.",
+  },
+  animado: {
+    archivo: "diagrama-animado.svg",
+    etiqueta: "Animado",
+    alt: "La misma arquitectura conceptual con un paquete recorriendo el ciclo completo entre los cuatro componentes.",
+    descripcion:
+      "El paquete recorre el ciclo completo: ida por cliente-consulta, retorno por cliente-consulta-respuesta.",
+  },
+  detallado: {
+    archivo: "diagrama-arquitectura.svg",
+    etiqueta: "Detallado",
+    alt: "Diagrama detallado de arquitectura con carriles por componente, tópicos, particiones, réplicas y los seis pasos del flujo de consulta.",
+    descripcion:
+      "Vista completa: carriles por componente, tópicos con particiones y réplicas, y los seis pasos del flujo de consulta.",
+  },
+};
+
+const ORDEN = ["conceptual", "animado", "detallado"];
+
 export default function Arquitectura() {
+  const [vista, setVista] = useState("conceptual");
   const [imgError, setImgError] = useState(false);
   const [retryKey, setRetryKey] = useState(Date.now());
+
+  const actual = VISTAS[vista];
+
+  const cambiarVista = (nueva) => {
+    if (nueva === vista) return;
+    setVista(nueva);
+    setImgError(false);
+  };
 
   const handleRetry = () => {
     setImgError(false);
     setRetryKey(Date.now());
   };
 
-  const imageSrc = `/diagrama-arquitectura.svg?t=${retryKey}`;
+  const imageSrc = `/${actual.archivo}?t=${retryKey}-${vista}`;
 
   return (
     <div className="arquitectura-container">
@@ -17,33 +52,53 @@ export default function Arquitectura() {
         <div>
           <h2 className="arquitectura-subtitle">Diagrama de Arquitectura del Sistema</h2>
           <p className="arquitectura-desc">
-            Visualización del flujo distribuido: Front-end (React), Productor Kafka (Spring Boot), clúster de mensajería (Apache Kafka) y Consumidor (Spring Boot con repositorio de clientes en memoria).
+            Visualización del flujo distribuido: Front-end (React), Productor Kafka (Spring
+            Boot), clúster de mensajería (Apache Kafka) y Consumidor (Spring Boot con
+            repositorio de clientes en memoria).
           </p>
         </div>
         <div className="arquitectura-actions">
           <a
-            href="/diagrama-arquitectura.svg"
+            href={`/${actual.archivo}`}
             target="_blank"
             rel="noopener noreferrer"
             className="actividad-btn-secondary"
-            title="Abrir diagrama SVG en tamaño completo en una nueva pestaña"
+            title="Abrir el diagrama actual en tamaño completo en una nueva pestaña"
           >
             ↗ Abrir a tamaño completo
           </a>
         </div>
       </div>
 
+      <div className="diagram-tabs" role="tablist" aria-label="Nivel de detalle del diagrama">
+        {ORDEN.map((clave) => (
+          <button
+            key={clave}
+            type="button"
+            role="tab"
+            aria-selected={vista === clave}
+            className={`diagram-tab${vista === clave ? " active" : ""}`}
+            onClick={() => cambiarVista(clave)}
+          >
+            {VISTAS[clave].etiqueta}
+          </button>
+        ))}
+      </div>
+
+      <p className="diagram-hint">{actual.descripcion}</p>
+
       <div className="arquitectura-viewer">
         {imgError ? (
           <div className="arquitectura-placeholder" role="alert">
             <div className="placeholder-icon" aria-hidden="true">🖼️</div>
-            <h3 className="placeholder-title">Diagrama de arquitectura no disponible aún</h3>
+            <h3 className="placeholder-title">Diagrama no disponible aún</h3>
             <p className="placeholder-text">
-              No se pudo cargar el archivo <code>/diagrama-arquitectura.svg</code> desde la carpeta <code>public/</code>.
-              Es posible que el archivo esté en proceso de generación o aún no haya sido colocado.
+              No se pudo cargar el archivo <code>/{actual.archivo}</code> desde la carpeta{" "}
+              <code>public/</code>. Es posible que el archivo esté en proceso de generación
+              o aún no haya sido colocado.
             </p>
             <div className="placeholder-meta">
-              <span>Ruta esperada: <code>public/diagrama-arquitectura.svg</code></span>
+              <span>Ruta esperada: <code>public/{actual.archivo}</code></span>
             </div>
             <div className="placeholder-actions">
               <button
@@ -58,9 +113,9 @@ export default function Arquitectura() {
         ) : (
           <div className="arquitectura-image-card">
             <img
-              key={retryKey}
+              key={`${retryKey}-${vista}`}
               src={imageSrc}
-              alt="Diagrama de arquitectura del sistema de mensajería distribuida con Apache Kafka: componentes React, producer, topics, consumer y nuevo listener de consulta"
+              alt={actual.alt}
               className="arquitectura-image"
               onError={() => setImgError(true)}
             />

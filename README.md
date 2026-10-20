@@ -22,8 +22,13 @@ Front-end React (Vite) de la actividad **Módulo 8 — Kafka en acción, del fro
 
 ### Pestaña Arquitectura
 
-`src/components/Arquitectura.jsx` muestra `public/diagrama-arquitectura.svg` con enlace al
-tamaño completo y aviso claro si la imagen no está disponible.
+`src/components/Arquitectura.jsx` ofrece el mismo diagrama en tres niveles con un selector:
+
+- **Conceptual** — `public/diagrama-simplificado.svg`: cuatro componentes y el ciclo completo.
+- **Animado** — `public/diagrama-animado.svg`: el mismo esquema con un paquete recorriendo el ciclo.
+- **Detallado** — `public/diagrama-arquitectura.svg`: carriles, tópicos con particiones y los seis pasos.
+
+Se puede abrir la vista activa a tamaño completo y hay un aviso claro si la imagen no está disponible.
 
 ## Configuración del API
 
@@ -46,5 +51,14 @@ El back-end debe permitir el origen `http://localhost:5173` (lo hace `CorsConfig
 
 ## Diagrama
 
-`public/diagrama-arquitectura.svg` es copia de `entregables/diagrama-arquitectura.svg`.
-El archivo editable es `diagrama-arquitectura.drawio` (draw.io / diagrams.net).
+Los tres SVG de `public/` son copias de `entregables/` y se generan con:
+
+```bash
+./entregables/generar-diagramas.py entregables/   # conceptual + animado
+```
+
+- `diagrama-simplificado.svg` — vista conceptual, sin animación.
+- `diagrama-animado.svg` — misma vista con el paquete en movimiento (`offset-path`); respeta
+  `prefers-reduced-motion`.
+- `diagrama-arquitectura.svg` — vista detallada; el archivo editable es `diagrama-arquitectura.drawio`
+  (draw.io / diagrams.net).
