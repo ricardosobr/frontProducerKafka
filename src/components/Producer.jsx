@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+
 export default function Producer() {
     const [message, setMessage] = useState("");
     const [response, setResponse] = useState("");
@@ -7,14 +9,18 @@ export default function Producer() {
     const sendMessage = async () => {
         const finalMessage = message + "menu";
 
-        const res = await fetch(
-        `http://localhost:8000/producer/menu?message=${encodeURIComponent(finalMessage)}`
-        );
+        try {
+            const res = await fetch(
+                `${API}/producer/menu?message=${encodeURIComponent(finalMessage)}`
+            );
 
-        const data = await res.text();
+            const data = await res.text();
 
-        setResponse(data);
-        setMessage("");
+            setResponse(data);
+            setMessage("");
+        } catch (err) {
+            setResponse(`Error al contactar el productor (${API}): ${err.message}`);
+        }
     };
 
     return (

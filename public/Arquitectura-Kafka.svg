@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1210" role="img" aria-labelledby="title desc">
+<title id="title">Kafka: componentes y clases</title>
+<desc id="desc">Consulta de clientes y flujo original de menús. React llama por HTTP al productor. La solicitud y la respuesta entre productor y consumidor pasan por Kafka. Solo ClienteQueryListener, el listener agregado, está resaltado en coral.</desc>
+<style>
+text{font-family:"Noto Sans","DejaVu Sans",sans-serif;font-size:16px;fill:#37352f}
+.name{font-size:17px;font-weight:700}.method{font-family:"DejaVu Sans Mono",monospace;font-size:14px}.small{font-size:14px}.muted{fill:#787774}.band{font-size:18px;font-weight:700}.column{font-size:17px;font-weight:700;text-anchor:middle}
+.node>rect{fill:#fff;stroke:#a6a39d;stroke-width:1.4;rx:5}.new>rect{fill:#fff3ed;stroke:#d66b43;stroke-width:2}.new .name{fill:#a54d2b}
+.forward{fill:none;stroke:#55534e;stroke-width:1.7;marker-end:url(#arrow)}.reply{fill:none;stroke:#787774;stroke-width:1.6;stroke-dasharray:5 4;marker-end:url(#arrow-back)}
+</style>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#55534e"/></marker>
+<marker id="arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9Z" fill="#787774"/></marker>
+</defs>
+<rect width="1440" height="1210" fill="#fff"/>
+<text x="30" y="36" style="font-size:28px;font-weight:700">Kafka: componentes y clases</text>
+<text x="30" y="61" class="muted">Dos recorridos sobre el mismo broker: consulta de clientes y menús.</text>
+<text x="180" y="93" class="column">React · :5173</text>
+<text x="540" y="93" class="column">str-producer · :8001</text>
+<text x="900" y="93" class="column">Kafka · :9092</text>
+<text x="1260" y="93" class="column">str-consumer · :8100</text>
+<path d="M30 106H1410" stroke="#dedcd7"/>
+<text x="30" y="128" class="band">1. Consulta de clientes</text>
+<!-- Conectores de consulta: petición y retorno separados. -->
+<path class="forward" d="M330 265H342Q350 265 350 257V198Q350 190 358 190H390"/>
+<text x="338" y="178" class="small">HTTP</text>
+<path class="reply" d="M390 210H378Q370 210 370 218V280Q370 288 362 288H330"/>
+<text x="338" y="310" class="small muted">JSON</text>
+<path class="forward" d="M490 230V255"/><path class="reply" d="M590 255V230"/>
+<path class="forward" d="M690 300H750"/>
+<path class="forward" d="M1050 190H1110"/>
+<path class="reply" d="M1110 290H1088Q1080 290 1080 298V467Q1080 475 1072 475H1050"/>
+<path class="reply" d="M750 490H690"/>
+<path class="reply" d="M540 445V405"/>
+<text x="549" y="430" class="small muted">completeQuery()</text>
+<path class="forward" d="M1250 315V350"/><path class="reply" d="M1300 350V315"/>
+<path class="forward" d="M1250 425V455"/><path class="reply" d="M1300 455V425"/>
+<!-- React -->
+<g class="node" transform="translate(30 145)"><rect width="300" height="180"/>
+<text x="14" y="28" class="name">Actividad.jsx</text>
+<text x="14" y="52" class="method">Actividad()</text>
+<text x="14" y="76">Pestañas: Consulta / Arquitectura</text>
+<text x="14" y="105" class="name">ConsultaClientes.jsx</text>
+<text x="14" y="128" class="method">consultarClientes()</text>
+<text x="14" y="150" class="method">GET /producer/clientes</text>
+<text x="14" y="171" class="method">?filtro=...</text></g>
+<g class="node" transform="translate(30 445)"><rect width="300" height="90"/>
+<text x="14" y="28" class="name">Arquitectura.jsx</text>
+<text x="14" y="52" class="method">Arquitectura()</text>
+<text x="14" y="76">Muestra esta imagen; no usa Kafka.</text></g>
+<!-- Productor de consultas -->
+<g class="node" transform="translate(390 145)"><rect width="300" height="85"/>
+<text x="14" y="27" class="name">ProducerController</text>
+<text x="14" y="51" class="method">consultarClientes(filtro)</text>
+<text x="14" y="74">Devuelve HTTP 200, 504 o 500.</text></g>
+<g class="node" transform="translate(390 255)"><rect width="300" height="150"/>
+<text x="14" y="27" class="name">ClienteQueryPublisher</text>
+<text x="14" y="51" class="method">consultar(filtro)</text>
+<text x="14" y="73" class="method">completeQuery(id, respuesta)</text>
+<text x="14" y="97">Registra requestId + future.</text>
+<text x="14" y="119">Publica con clave = filtro.</text>
+<text x="14" y="141">get() espera y bloquea el hilo HTTP.</text></g>
+<g class="node" transform="translate(390 445)"><rect width="300" height="90"/>
+<text x="14" y="27" class="name">ClienteQueryResponseListener</text>
+<text x="14" y="51" class="method">recibirRespuesta(record)</text>
+<text x="14" y="75" class="small">Grupo: cliente-query-response-group</text></g>
+<!-- Tópicos de consulta -->
+<g class="node" transform="translate(750 145)"><rect width="300" height="170"/>
+<text x="14" y="28" class="name">cliente-consulta</text>
+<text x="14" y="58">3 particiones: P0, P1, P2</text>
+<text x="14" y="84">Factor de replicación: 1</text>
+<text x="14" y="114" class="method">clave = filtro</text>
+<text x="14" y="142">Mensaje: requestId + filtro</text></g>
+<g class="node" transform="translate(750 420)"><rect width="300" height="115"/>
+<text x="14" y="28" class="name">cliente-consulta-respuesta</text>
+<text x="14" y="55">3 particiones · factor 1</text>
+<text x="14" y="81" class="method">clave = requestId</text>
+<text x="14" y="104">Respuesta con ID y clientes.</text></g>
+<!-- Consumidor: solo el listener agregado lleva coral. -->
+<g class="node new" transform="translate(1110 145)"><rect width="300" height="170"/>
+<text x="14" y="27" class="name">ClienteQueryListener</text>
+<text x="14" y="51" class="method">procesarConsulta(record)</text>
+<text x="14" y="76" class="small">Grupo: cliente-query-group</text>
+<text x="14" y="104">Recibe la solicitud y llama al servicio.</text>
+<text x="14" y="131">Publica la respuesta en Kafka.</text>
+<text x="14" y="157" class="small">Listener agregado · @KafkaListener</text></g>
+<g class="node" transform="translate(1110 350)"><rect width="300" height="75"/>
+<text x="14" y="28" class="name">ClienteQueryService</text>
+<text x="14" y="55" class="method">consultar(request)</text></g>
+<g class="node" transform="translate(1110 455)"><rect width="300" height="80"/>
+<text x="14" y="25" class="name">ClienteRepository</text>
+<text x="14" y="49" class="method">buscar(filtro) / todos()</text>
+<text x="14" y="71">12 clientes en memoria, sin BD.</text></g>
+<text x="30" y="562" class="small muted">El requestId del mensaje permite asociar la respuesta al future pendiente. No hay HTTP directo entre los dos servicios.</text>
+<path d="M30 577H1410" stroke="#dedcd7"/>
+<text x="30" y="601" class="band">2. Menús: flujo original</text>
+<!-- Conectores de menú. El retorno sale de listener2, no del procesador. -->
+<path class="forward" d="M330 660H390"/><text x="337" y="650" class="small">HTTP</text>
+<path class="reply" d="M390 690H330"/>
+<path class="forward" d="M490 710V735"/><path class="reply" d="M590 735V710"/>
+<path class="forward" d="M690 775H712Q720 775 720 767V718Q720 710 728 710H750"/>
+<path class="forward" d="M1050 660H1110"/>
+<path class="reply" d="M1110 755H1088Q1080 755 1080 763V852Q1080 860 1072 860H1050"/>
+<path class="reply" d="M750 860H690"/>
+<path class="reply" d="M390 875H358Q350 875 350 867V728Q350 720 358 720H412Q420 720 420 712V710"/>
+<path class="forward" d="M1250 785V810"/><path class="reply" d="M1300 810V785"/>
+<g class="node" transform="translate(30 620)"><rect width="300" height="145"/>
+<text x="14" y="28" class="name">Producer.jsx</text>
+<text x="14" y="54" class="method">sendMessage()</text>
+<text x="14" y="81" class="method">GET /producer/menu</text>
+<text x="14" y="104" class="method">?message=...</text>
+<text x="14" y="131">Añade «menu» al texto ingresado.</text></g>
+<g class="node" transform="translate(390 620)"><rect width="300" height="90"/>
+<text x="14" y="27" class="name">ProducerController</text>
+<text x="14" y="52" class="method">sendMenu() / sendTest()</text>
+<text x="14" y="76" class="method">sendAndWait(): lee response</text></g>
+<g class="node" transform="translate(390 735)"><rect width="300" height="80"/>
+<text x="14" y="26" class="name">StringProducerService</text>
+<text x="14" y="49" class="method">sendMessage(message)</text>
+<text x="14" y="72">Contiene «menu»: P1; otro: P0.</text></g>
+<g class="node" transform="translate(390 840)"><rect width="300" height="70"/>
+<text x="14" y="25" class="name">ResponseListener</text>
+<text x="14" y="47" class="method">listen(message) · group-1</text>
+<text x="14" y="62" class="small">Guarda el texto en response.</text></g>
+<g class="node" transform="translate(750 620)"><rect width="300" height="140"/>
+<text x="14" y="28" class="name">str-topic</text>
+<text x="14" y="57">2 particiones · factor 1</text>
+<text x="14" y="87">P0: registro sin respuesta.</text>
+<text x="14" y="115">P1: procesa y responde al menú.</text></g>
+<g class="node" transform="translate(750 810)"><rect width="300" height="100"/>
+<text x="14" y="28" class="name">str-topic-response</text>
+<text x="14" y="57">2 particiones · factor 1</text>
+<text x="14" y="84">Mensaje: texto del menú sugerido.</text></g>
+<g class="node" transform="translate(1110 620)"><rect width="300" height="165"/>
+<text x="14" y="27" class="name">StrConsumerListener</text>
+<text x="14" y="54" class="method">listener1(): P0 · group-1</text>
+<text x="14" y="79" class="method">listener2(): P1 · group-1</text>
+<text x="14" y="104" class="method">listener3(): P0/P1 · group-2</text>
+<text x="14" y="130" class="small">listener2 procesa y publica la respuesta.</text>
+<text x="14" y="152" class="small">listener3 hace una lectura independiente.</text></g>
+<g class="node" transform="translate(1110 810)"><rect width="300" height="100"/>
+<text x="14" y="28" class="name">OrderProcessor</text>
+<text x="14" y="55" class="method">process(message)</text>
+<text x="14" y="82">Genera la sugerencia de menú.</text></g>
+<path d="M30 927H1410" stroke="#dedcd7"/>
+<text x="30" y="951" class="band">3. Configuración compartida</text>
+<g class="node" transform="translate(30 970)"><rect width="300" height="190"/>
+<text x="14" y="27" class="name">Front y Docker Compose</text>
+<text x="14" y="54" class="method">VITE_API_URL=</text>
+<text x="14" y="76" class="method">http://localhost:8001</text>
+<text x="14" y="102">Kafka :9092 · Zookeeper :2181</text>
+<text x="14" y="127">Kafdrop :19000: inspección.</text>
+<text x="14" y="151" class="small">La autocreación de tópicos está apagada.</text></g>
+<g class="node" transform="translate(390 970)"><rect width="300" height="190"/>
+<text x="14" y="27" class="name">KafkaAdminConfig</text>
+<text x="14" y="51" class="method">topics(): los cuatro tópicos</text>
+<text x="14" y="83" class="name">StringProducerFactoryConfig</text>
+<text x="14" y="107" class="method">producerFactory()</text>
+<text x="14" y="129" class="method">kafkaTemplate()</text>
+<text x="14" y="152" class="small">Serializa claves y valores como String.</text></g>
+<g class="node" transform="translate(750 970)"><rect width="300" height="190"/>
+<text x="14" y="27" class="name">Un broker · factor 1</text>
+<text x="14" y="56">Una copia por partición,</text>
+<text x="14" y="81">sin respaldo en otro servidor.</text>
+<text x="14" y="115">El orden se conserva dentro</text>
+<text x="14" y="140">de cada partición, no globalmente.</text></g>
+<g class="node" transform="translate(1110 970)"><rect width="300" height="190"/>
+<text x="14" y="23" class="name">KafkaAdminConfig</text>
+<text x="14" y="43" class="small">clienteTopics(): los dos de consulta.</text>
+<text x="14" y="67" class="name">StringConsumerConfig</text>
+<text x="14" y="88" class="method">consumerFactory()</text>
+<text x="14" y="106" class="method">producerFactory()</text>
+<text x="14" y="124" class="method">kafkaTemplate()</text>
+<text x="14" y="142" class="method">kafkaListenerContainerFactory()</text>
+<text x="14" y="160" class="method">validMessageContainerFactory()</text>
+<text x="14" y="178" class="small">validMessage(): registra, no descarta.</text></g>
+<path class="forward" d="M30 1190H76"/><text x="88" y="1195" class="small">Llamada / publicación</text>
+<path class="reply" d="M310 1190H356"/><text x="368" y="1195" class="small">Respuesta</text>
+<text x="520" y="1195" class="small muted">Coral: listener agregado. Los grupos reparten particiones; grupos distintos leen de forma independiente.</text>
+</svg>
